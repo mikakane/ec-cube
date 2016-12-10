@@ -391,7 +391,7 @@ function createConfigFiles($database_driver)
 {
     $config_path = __DIR__.'/app/config/eccube';
     createYaml(getConfig(), $config_path.'/config.yml');
-    createYaml($config_path.'/database.php');
+    createDBConfig($config_path.'/database.php');
     createYaml(getMailConfig(), $config_path.'/mail.yml');
     createYaml(getPathConfig(), $config_path.'/path.yml');
 }
