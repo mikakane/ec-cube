@@ -391,24 +391,24 @@ function createConfigFiles($database_driver)
 {
     $config_path = __DIR__.'/app/config/eccube';
     createYaml(getConfig(), $config_path.'/config.yml');
-    createYaml(getDatabaseConfig($database_driver), $config_path.'/database.yml');
+    createYaml($config_path.'/database.php');
     createYaml(getMailConfig(), $config_path.'/mail.yml');
     createYaml(getPathConfig(), $config_path.'/path.yml');
 }
 
-function createDBConfig($config, $path)
+function createDBConfig($path)
 {
-    $config = <<<DBCONFIG
+    $config = <<<'DBCONFIG'
 <?php
-
+$url = parse_url(getenv("DATABASE_URL"));
 return [
     "database" => [
         'driver' => 'pdo_pgsql',
-        'host' => 'ec2-54-243-185-132.compute-1.amazonaws.com',
-        'dbname' => 'd869nhfef04jdk',
-        'port' => '5432',
-        'user' => 'nensizeodfomzf',
-        'password' => 'f4e731b23b17573db4f16c35117410f5bab99535208eed275185c88d4f83d0ce',
+        'host' => $url["host"],
+        'dbname' => substr($url["path"],1),
+        'port' => $url["port"],
+        'user' => $url["user"],
+        'password' => $url["pass"],
         'charset' => 'utf8',
         'defaultTableOptions' => [
             'collate' => 'utf8_general_ci'
@@ -416,10 +416,8 @@ return [
     ]
 ];
 DBCONFIG;
-
-    $content = \Symfony\Component\Yaml\Yaml::dump($config);
     $fs = new \Symfony\Component\Filesystem\Filesystem();
-    $fs->dumpFile($path, $content);
+    $fs->dumpFile($path, $config);
 }
 
 function createYaml($config, $path)
