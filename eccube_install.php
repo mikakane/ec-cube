@@ -396,6 +396,32 @@ function createConfigFiles($database_driver)
     createYaml(getPathConfig(), $config_path.'/path.yml');
 }
 
+function createDBConfig($config, $path)
+{
+    $config = <<<DBCONFIG
+<?php
+
+return [
+    "database" => [
+        'driver' => 'pdo_pgsql',
+        'host' => 'ec2-54-243-185-132.compute-1.amazonaws.com',
+        'dbname' => 'd869nhfef04jdk',
+        'port' => '5432',
+        'user' => 'nensizeodfomzf',
+        'password' => 'f4e731b23b17573db4f16c35117410f5bab99535208eed275185c88d4f83d0ce',
+        'charset' => 'utf8',
+        'defaultTableOptions' => [
+            'collate' => 'utf8_general_ci'
+        ]
+    ]
+];
+DBCONFIG;
+
+    $content = \Symfony\Component\Yaml\Yaml::dump($config);
+    $fs = new \Symfony\Component\Filesystem\Filesystem();
+    $fs->dumpFile($path, $content);
+}
+
 function createYaml($config, $path)
 {
     $content = \Symfony\Component\Yaml\Yaml::dump($config);
