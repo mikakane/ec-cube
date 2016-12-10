@@ -7,18 +7,6 @@
     "addons": [
         "heroku-postgresql"
     ],
-    "env": {
-        "ADMIN_USER": {
-            "description": "login name for admin user",
-            "value": "",
-            "required": true
-        },
-        "ADMIN_PASS": {
-            "description": "login password for admin user",
-            "value": "",
-            "required": true
-        }
-    },
     "buildpacks": [
         {
             "url": "heroku/php"
